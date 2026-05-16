@@ -1,27 +1,83 @@
 import Link from "next/link";
-import type { Business, Category } from "@prisma/client";
 
-type BusinessWithCategory = Business & { category: Category };
+type BusinessWithCategory = {
+  slug: string;
+  name: string;
+  description: string | null;
+  address: string | null;
+  city: string | null;
+  phone: string | null;
+  whatsapp: string | null;
+  hours: string | null;
+  rating: number | null;
+  category: {
+    name: string;
+    slug: string;
+  };
+};
 
-export function BusinessCard({ business }: { business: BusinessWithCategory }) {
+export function BusinessCard({
+  business,
+}: {
+  business: BusinessWithCategory;
+}) {
   return (
-    <article className="card business-card">
-      <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
-        <div className="cat-icon">🏢</div>
+    <article className="business-card">
+      <div className="business-top">
+        <div className="biz-logo">🏢</div>
+
         <div>
-          <h3 style={{ margin: 0 }}>{business.name}</h3>
-          <span className="badge">{business.category.name} · ⭐ {business.rating?.toString() ?? "Nuevo"}</span>
+          <h3>{business.name}</h3>
+
+          <span className="badge">
+            {business.category.name} · ⭐{" "}
+            {business.rating ?? "Nuevo"}
+          </span>
         </div>
       </div>
-      <p className="desc">{business.description}</p>
+
+      <p className="desc">
+        {business.description ??
+          "Negocio registrado en Directorio Comercial Guatemala."}
+      </p>
+
       <div className="info">
-        {business.address && <span>📍 {business.address}</span>}
-        {business.phone && <span>☎ {business.phone}</span>}
-        {business.hours && <span>🕒 {business.hours}</span>}
+        <span>
+          📍 {business.address ?? business.city ?? "Guatemala"}
+        </span>
+
+        <span>
+          ☎ {business.phone ?? "Teléfono no disponible"}
+        </span>
+
+        <span>
+          🕒 {business.hours ?? "Horario no disponible"}
+        </span>
       </div>
+
       <div className="actions">
-        {business.whatsapp && <a className="whatsapp" href={`https://wa.me/${business.whatsapp.replace(/\D/g, "")}`}>WhatsApp</a>}
-        <Link className="outline" href={`/negocio/${business.slug}`}>Ver detalle</Link>
+        {business.whatsapp ? (
+          <a
+            className="whatsapp"
+            href={`https://wa.me/${business.whatsapp.replace(
+              /\D/g,
+              ""
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            WhatsApp
+          </a>
+        ) : (
+          <button className="whatsapp">WhatsApp</button>
+        )}
+
+        <Link
+          className="outline"
+          href={`/negocio/${business.slug}`}
+        >
+          Ver detalle
+        </Link>
       </div>
     </article>
   );
