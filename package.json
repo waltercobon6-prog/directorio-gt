@@ -14,18 +14,18 @@
     "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/client": "latest",
-    "next": "latest",
-    "prisma": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "@prisma/client": "5.22.0",
+    "next": "15.2.4",
+    "prisma": "5.22.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "tsx": "latest",
-    "typescript": "latest"
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.2",
+    "@types/react-dom": "19.0.2",
+    "tsx": "4.19.2",
+    "typescript": "5.7.2"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
