@@ -26,7 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export async function generateStaticParams() {
   const businesses = await prisma.business.findMany({ where: { isActive: true }, select: { slug: true } });
-  return businesses.map((business: { slug: string }) => ({ slug: business.slug }));
+  return businesses.map((business: { slug: string }) => ({
+  slug: business.slug,
+}));
 }
 
 export default async function BusinessDetailPage({ params }: Props) {
