@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id             String     @id @default(cuid())
+  name           String
+  slug           String     @unique
+  icon           String?
+  seoTitle       String?
+  seoDescription String?
+  isActive       Boolean    @default(true)
+  sortOrder      Int        @default(0)
+  businesses     Business[]
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([isActive, sortOrder])
+}
+
+model Business {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  shortDescription String?
+  description    String
+  seoTitle       String?
+  seoDescription String?
+  phone          String?
+  whatsapp       String?
+  email          String?
+  website        String?
+  address        String?
+  city           String?
+  department     String?
+  latitude       Decimal?  @db.Decimal(10, 7)
+  longitude      Decimal?  @db.Decimal(10, 7)
+  hours          String?
+  logoUrl        String?
+  gallery        Json?
+  youtubeUrl     String?
+  facebookUrl    String?
+  instagramUrl   String?
+  tiktokUrl      String?
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  isActive       Boolean   @default(true)
+  isFeatured     Boolean   @default(false)
+  views          Int       @default(0)
+  rating         Decimal?  @db.Decimal(2, 1)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([categoryId, isActive])
+  @@index([slug])
+  @@index([isFeatured, rating])
+  @@index([city, department])
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
